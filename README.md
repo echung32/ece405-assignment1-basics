@@ -1,6 +1,6 @@
 # UHM ECE 405 Spring 2026 Assignment 1: Basics
 
-This asignment is created from Assignment 1 of [CS336 at Stanford taught in Spring 2025](https://stanford-cs336.github.io/spring2025/). 
+This assignment is created from Assignment 1 of [CS336 at Stanford taught in Spring 2025](https://stanford-cs336.github.io/spring2025/). 
 For the full description of the original assignment, see the assignment handout at
 [cs336_spring2025_assignment1_basics.pdf](./cs336_spring2025_assignment1_basics.pdf)
 Check out the [glossary of terms](./glossary.md) for this assignment.
