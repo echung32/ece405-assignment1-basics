@@ -1,0 +1,34 @@
+Cache generation job started on cn042.delta.ncsa.illinois.edu at Wed Feb 11 17:16:39 CST 2026
+Job ID: 15826162
+Working directory: /projects/bfdy/ece405-assignment1-basics
+CPUs allocated: 16
+Memory allocated: 2000 MB
+Python version: Python 3.13.7
+Available CPUs: 16
+Starting training...
+Using num_processes=16
+59933 unique pre-tokens found in the dataset.
+Timing (s): pretokenize=55.955, vocab_init=0.000, pair_count_init=0.308, merge_loop_total=36.274, merge_updates_total=2.896, merge_update_avg=0.000297, total=92.538
+Peak Memory Usage: 118.01 MB
+TinyStories summary:
+{
+  "vocab_path": "artifacts/tinystories_vocab.json",
+  "merges_path": "artifacts/tinystories_merges.txt",
+  "vocab_size": 10000,
+  "merges_count": 9743,
+  "longest_token_bytes": 15,
+  "longest_token_preview": " accomplishment",
+  "total_hours": 0.025704908866965626,
+  "peak_memory_mb": 118.0078125,
+  "timings": {
+    "pretokenize_s": 55.954586309148,
+    "vocab_init_s": 5.162716843187809e-05,
+    "pair_count_init_s": 0.3080236290115863,
+    "merge_loop_total_s": 36.27419624477625,
+    "merge_updates_total_s": 2.8955518978182226,
+    "merge_update_avg_s": 0.0002971930511976006,
+    "total_s": 92.53767192107625,
+    "peak_memory_mb": 118.0078125
+  }
+}
+Job completed at Wed Feb 11 17:18:13 CST 2026
