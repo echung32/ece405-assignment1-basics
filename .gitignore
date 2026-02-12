@@ -166,3 +166,5 @@ cython_debug/
 /data/
 .idea/
 *.tmp_chunks/
+
+artifacts/*.npy
