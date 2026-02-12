@@ -1,4 +1,5 @@
 import torch
+from jaxtyping import Float
 from torch import nn
 
 
@@ -26,7 +27,7 @@ class RMSNorm(nn.Module):
         # weight refers to the g_i learnable param
         self.weight = nn.Parameter(torch.ones(d_model, device=device, dtype=dtype))
 
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
+    def forward(self, x: Float[torch.Tensor, " ... d_model"]) -> Float[torch.Tensor, " ... d_model"]:
         """
         Process an input tensor of shape (batch_size, sequence_length, d_model) and return a tensor of the same shape
 
@@ -46,6 +47,3 @@ class RMSNorm(nn.Module):
 
         # downcast back to original type
         return rmsnorm.to(in_dtype)
-
-if __name__ == "__main__":
-    print("true")

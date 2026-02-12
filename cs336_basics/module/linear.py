@@ -1,7 +1,8 @@
-import einx
 import torch
 import torch.nn as nn
 import math
+
+from jaxtyping import Float
 
 
 class Linear(nn.Module):
@@ -39,7 +40,7 @@ class Linear(nn.Module):
         with torch.no_grad():
             nn.init.trunc_normal_(self.weight, mean=0.0, std=std, a=-3*std, b=3*std)
     
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
+    def forward(self, x: Float[torch.Tensor, " ... d_in"]) -> Float[torch.Tensor, " ... d_out"]:
         """
         Apply the linear transformation to the input.
         
@@ -51,23 +52,23 @@ class Linear(nn.Module):
         """
         # perform linear transformation: y = Wx
         # print(x.shape, self.weight.shape, self.weight.t().shape, torch.matmul(x, self.weight.t()).shape)
-        # return torch.matmul(x, self.weight.t())
+        return torch.matmul(x, self.weight.t())
 
         # torch.testing.assert_close(einx.dot("... in, in out -> ... out", x, self.weight.t()), torch.matmul(x, self.weight.t()))
 
-        # try using einx
-        return einx.dot("... in, in out -> ... out", x, self.weight.t())
+        # try using einx (this works! but matmul is prob faster)
+        # return einx.dot("... in, in out -> ... out", x, self.weight.t())
 
-if __name__ == "__main__":
-    d_in, d_out = 16, 32
-    m = Linear(d_in, d_out)
-    x = torch.randn(d_in)  # shape: (d_in,)
-    y = m(x)
-    assert y.shape == (d_out,)
-    # 2D batch
-    x = torch.randn(4, d_in)  # shape: (batch, d_in)
-    y = m(x)
-    assert y.shape == (4, d_out)
+# if __name__ == "__main__":
+#     d_in, d_out = 16, 32
+#     m = Linear(d_in, d_out)
+#     x = torch.randn(d_in)  # shape: (d_in,)
+#     y = m(x)
+#     assert y.shape == (d_out,)
+#     # 2D batch
+#     x = torch.randn(4, d_in)  # shape: (batch, d_in)
+#     y = m(x)
+#     assert y.shape == (4, d_out)
 
     # torch.Size([16]) torch.Size([32, 16]) torch.Size([16, 32]) torch.Size([32])
     # torch.Size([4, 16]) torch.Size([32, 16]) torch.Size([16, 32]) torch.Size([4, 32])

@@ -1,4 +1,5 @@
 import torch
+from jaxtyping import Int, Float
 from torch import nn
 
 
@@ -26,7 +27,7 @@ class Embedding(nn.Module):
         with torch.no_grad():
             nn.init.trunc_normal_(self.embedding, mean=0.0, std=std, a=-3.0, b=3.0)
 
-    def forward(self, token_ids: torch.Tensor) -> torch.Tensor:
+    def forward(self, token_ids: Int[torch.Tensor, " ..."]) -> Float[torch.Tensor, " ... d_model"]:
         """
         Lookup the embedding vectors for the given token IDs
 
