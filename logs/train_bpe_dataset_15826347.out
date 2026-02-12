@@ -1,0 +1,34 @@
+Cache generation job started on cn039.delta.ncsa.illinois.edu at Wed Feb 11 17:45:24 CST 2026
+Job ID: 15826347
+Working directory: /projects/bfdy/ece405-assignment1-basics
+CPUs allocated: 16
+Memory allocated: 8000 MB
+Python version: Python 3.13.7
+Available CPUs: 16
+Starting training...
+Using num_processes=16
+6601892 unique pre-tokens found in the dataset.
+Timing (s): pretokenize=304.058, vocab_init=0.000, pair_count_init=86.779, merge_loop_total=10975.412, merge_updates_total=1043.282, merge_update_avg=0.032867, total=11366.254
+Peak Memory Usage: 8707.80 MB
+OpenWebText summary:
+{
+  "vocab_path": "artifacts/owt_vocab.json",
+  "merges_path": "artifacts/owt_merges.txt",
+  "vocab_size": 32000,
+  "merges_count": 31743,
+  "longest_token_bytes": 64,
+  "longest_token_preview": "\u00c3\u00c2\u00c3\u00c2\u00c3\u00c2\u00c3\u00c2\u00c3\u00c2\u00c3\u00c2\u00c3\u00c2\u00c3\u00c2\u00c3\u00c2\u00c3\u00c2\u00c3\u00c2\u00c3\u00c2\u00c3\u00c2\u00c3\u00c2\u00c3\u00c2\u00c3\u00c2",
+  "total_hours": 3.157292779307528,
+  "peak_memory_mb": 8707.8046875,
+  "timings": {
+    "pretokenize_s": 304.0584096892271,
+    "vocab_init_s": 7.404899224638939e-05,
+    "pair_count_init_s": 86.77931839320809,
+    "merge_loop_total_s": 10975.411631808849,
+    "merge_updates_total_s": 1043.2815896912944,
+    "merge_update_avg_s": 0.032866508826868736,
+    "total_s": 11366.2540055071,
+    "peak_memory_mb": 8707.8046875
+  }
+}
+Job completed at Wed Feb 11 20:54:57 CST 2026
