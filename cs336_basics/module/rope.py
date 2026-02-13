@@ -138,25 +138,25 @@ class RotaryPositionalEmbedding(nn.Module):
         return output
 
 
-if __name__ == "__main__":
-    d_k = 64
-    max_seq_len = 128
-    theta = 10000.0
-
-    rope = RotaryPositionalEmbedding(theta=theta, d_k=d_k, max_seq_len=max_seq_len)
-
-    test_cases = [
-        # seq len, d_k
-        ((10, d_k), (10,)),
-        # batch, seq_len, d_k
-        ((4, 10, d_k), (4, 10)),
-    ]
-
-    for x_shape, pos_shape in test_cases:
-        x = torch.randn(*x_shape)
-        positions = torch.arange(pos_shape[-1]).expand(*pos_shape)
-
-        print(x.shape, positions.shape)
-        output = rope(x, positions)
-
-        assert output.shape == x.shape
+# if __name__ == "__main__":
+#     d_k = 64
+#     max_seq_len = 128
+#     theta = 10000.0
+#
+#     rope = RotaryPositionalEmbedding(theta=theta, d_k=d_k, max_seq_len=max_seq_len)
+#
+#     test_cases = [
+#         # seq len, d_k
+#         ((10, d_k), (10,)),
+#         # batch, seq_len, d_k
+#         ((4, 10, d_k), (4, 10)),
+#     ]
+#
+#     for x_shape, pos_shape in test_cases:
+#         x = torch.randn(*x_shape)
+#         positions = torch.arange(pos_shape[-1]).expand(*pos_shape)
+#
+#         print(x.shape, positions.shape)
+#         output = rope(x, positions)
+#
+#         assert output.shape == x.shape
