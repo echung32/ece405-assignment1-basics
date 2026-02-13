@@ -54,6 +54,8 @@ class MultiHeadSelfAttention(nn.Module):
             use_rope: bool = False,
             max_seq_len: int | None = None,
             theta: float = 10000.0,
+            device: torch.device = None,
+            dtype: torch.dtype = None,
     ):
         super().__init__()
 
@@ -69,12 +71,12 @@ class MultiHeadSelfAttention(nn.Module):
         self.d_v = d_model // num_heads
 
         # Here, the learnable parameters are WQ ∈ Rhdk ×dmodel , WK ∈ Rhdk ×dmodel , WV ∈ Rhdv ×dmodel
-        self.q_proj = Linear(in_features=d_model, out_features=num_heads * self.d_k)
-        self.k_proj = Linear(in_features=d_model, out_features=num_heads * self.d_k)
-        self.v_proj = Linear(in_features=d_model, out_features=num_heads * self.d_v)
+        self.q_proj = Linear(in_features=d_model, out_features=num_heads * self.d_k, device=device, dtype=dtype)
+        self.k_proj = Linear(in_features=d_model, out_features=num_heads * self.d_k, device=device, dtype=dtype)
+        self.v_proj = Linear(in_features=d_model, out_features=num_heads * self.d_v, device=device, dtype=dtype)
 
         # WO ∈ Rdmodel×hdv .
-        self.output_proj = Linear(in_features=num_heads * self.d_v, out_features=d_model)
+        self.output_proj = Linear(in_features=num_heads * self.d_v, out_features=d_model, device=device, dtype=dtype)
 
         # RoPE should be applied to the query and key vectors, but not the value vectors.
         if use_rope:
@@ -83,6 +85,7 @@ class MultiHeadSelfAttention(nn.Module):
                 d_k=self.d_k,
                 max_seq_len=max_seq_len,
                 theta=theta,
+                device=device
             )
         else:
             self.rope = None

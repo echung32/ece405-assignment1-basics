@@ -103,8 +103,13 @@ class RotaryPositionalEmbedding(nn.Module):
                 Specifies the position index for each token
         
         Returns:
-            torch.Tensor: Rotated tensor of same shape (..., seq_len, d_k)
+            torch.Tensor: Rotated tensor of the same shape (..., seq_len, d_k)
         """
+
+        if token_positions is None:
+            # generate positions from x's seq_len
+            token_positions = torch.arange(x.shape[-2], device=x.device, dtype=torch.long)
+
         # TODO: Extract cos and sin values for the given token positions
         cos: Float["..., seq_len, d_k/2"] = self.cos_cached[token_positions]
         sin: Float["..., seq_len, d_k/2"] = self.sin_cached[token_positions]
