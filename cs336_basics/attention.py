@@ -62,6 +62,7 @@ def scaled_dot_product_attention(
     # and we can do this by taking the pre-softmax values and adding a −∞ in any entry of the mask matrix that is False."
     # after softmax the exp(-inf) = 0 so the positions get 0 weight. if it was exp(0) then it would still get weight.
     if mask is not None:
+        # when the value is True, then it does attend to the key.
         scores = scores.masked_fill(~mask, float('-inf'))
 
     # softmax over the keys dimension (m)

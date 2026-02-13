@@ -21,11 +21,6 @@ class RotaryPositionalEmbedding(nn.Module):
         R_k^i = [[cos(θ), -sin(θ)],
                  [sin(θ),  cos(θ)]]
     
-    Key properties:
-    - No learnable parameters (just precomputed sin/cos values)
-    - Relative positional information (rotation difference encodes distance)
-    - Efficient implementation without constructing full rotation matrix
-    
     Reference: RoFormer: Enhanced Transformer with Rotary Position Embedding
                (Su et al., 2021) - https://arxiv.org/abs/2104.09864
     """
