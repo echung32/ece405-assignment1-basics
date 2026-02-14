@@ -8,8 +8,10 @@ import numpy.typing as npt
 import torch
 from jaxtyping import Bool, Float, Int
 from torch import Tensor
+from torch.nn import CrossEntropyLoss
 
 from cs336_basics.attention import scaled_dot_product_attention
+from cs336_basics.cross_entropy import cross_entropy
 from cs336_basics.module.embedding import Embedding
 from cs336_basics.module.multihead_attention import MultiHeadSelfAttention
 from cs336_basics.module.rmsnorm import RMSNorm
@@ -501,7 +503,7 @@ def run_cross_entropy(
     Returns:
         Float[Tensor, ""]: The average cross-entropy loss across examples.
     """
-    raise NotImplementedError
+    return cross_entropy(inputs, targets)
 
 
 def run_gradient_clipping(parameters: Iterable[torch.nn.Parameter], max_l2_norm: float) -> None:

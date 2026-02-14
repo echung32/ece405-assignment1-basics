@@ -43,9 +43,7 @@ class RotaryPositionalEmbedding(nn.Module):
         self.d_k = d_k
         self.max_seq_len = max_seq_len
 
-        # TODO: Precompute the rotation angles and sin/cos values
-        # 
-        # Step 1: Compute the frequency for each dimension pair k ∈ {1, ..., d_k/2}
+        # compute the frequency for each dimension pair k ∈ {1, ..., d_k/2}
         # The formula is: freq_k = 1 / (Θ^((2k-2)/d_k))
         # For k=1: freq = 1 / Θ^0 = 1
         # For k=2: freq = 1 / Θ^(2/d_k)
@@ -60,21 +58,20 @@ class RotaryPositionalEmbedding(nn.Module):
         freqs = 1.0 / (theta ** exponent)
         # print(freqs, freqs.shape)
 
-        # TODO: Create position indices for all positions [0, 1, ..., max_seq_len-1]
+        # create position indices for all positions [0, 1, ..., max_seq_len-1]
         positions: Int["max_seq_len"] = torch.arange(max_seq_len, device=device)
         # print(positions, positions.shape)
 
-        # TODO: Compute angles θ(i,k) = position * freq for all positions and freqs
+        # compute angles θ(i,k) = position * freq for all positions and freqs
         # Use outer product: angles[i, k] = positions[i] * freqs[k]
         angles: Float["max_seq_len d_k/2"] = torch.outer(positions, freqs)
         # print(angles, angles.shape)
 
-        # TODO: Precompute sin and cos values
+        # precompute sin and cos values
         cos_cached: Float["max_seq_len d_k/2"] = torch.cos(angles)
         sin_cached: Float["max_seq_len d_k/2"] = torch.sin(angles)
         # print(cos_cached, cos_cached.shape, sin_cached, sin_cached.shape)
 
-        # TODO: Register these as buffers (not parameters, as they're not learned)
         # "and it can have a 2d pre-computed buffer of sin and cos values
         # created during init with self.register_buffer(persistent=False)"
         self.register_buffer("cos_cached", cos_cached, persistent=False)
@@ -110,19 +107,19 @@ class RotaryPositionalEmbedding(nn.Module):
             # generate positions from x's seq_len
             token_positions = torch.arange(x.shape[-2], device=x.device, dtype=torch.long)
 
-        # TODO: Extract cos and sin values for the given token positions
+        # extract cos and sin values for the given token positions
         cos: Float["..., seq_len, d_k/2"] = self.cos_cached[token_positions]
         sin: Float["..., seq_len, d_k/2"] = self.sin_cached[token_positions]
         # print(cos.shape, sin.shape)
 
-        # TODO: Split x into pairs (even and odd indices)
+        # split x into pairs (even and odd indices)
         # r_i is a block-diagonal with 2x2 blocks of Ri_k (illustrated as 1 value but every value is a 2x2 block)
         # every block ri_k only acts on the subvector, so you have to split input vector x into pairs (even/odd)
         # then each pair is rotated independently by ri_k.
         x1 = x[..., 0::2]  # even
         x2 = x[..., 1::2]  # odd
 
-        # TODO: Apply rotation to each pair
+        # apply rotation to each pair
         # The 2D rotation formula:
         # [x1']   [cos(θ)  -sin(θ)] [x1]
         # [x2'] = [sin(θ)   cos(θ)] [x2]
@@ -130,7 +127,7 @@ class RotaryPositionalEmbedding(nn.Module):
         x1_rotated: Float["..., seq_len, d_k/2"] = x1 * cos - x2 * sin
         x2_rotated: Float["..., seq_len, d_k/2"] = x1 * sin + x2 * cos
 
-        # TODO: Interleave the rotated pairs back together
+        # interleave the rotated pairs back together
         output: Float["..., seq_len, d_k"] = torch.empty_like(x)
         output[..., 0::2] = x1_rotated
         output[..., 1::2] = x2_rotated
