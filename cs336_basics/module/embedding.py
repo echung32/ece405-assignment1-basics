@@ -16,7 +16,7 @@ class Embedding(nn.Module):
         """
         super().__init__()
 
-        self.embedding = nn.Parameter(
+        self.weight = nn.Parameter(
             torch.empty(num_embeddings, embedding_dim, device=device, dtype=dtype)
         )
 
@@ -25,7 +25,7 @@ class Embedding(nn.Module):
         std = 1
         # Truncate at [-3, 3]
         with torch.no_grad():
-            nn.init.trunc_normal_(self.embedding, mean=0.0, std=std, a=-3.0, b=3.0)
+            nn.init.trunc_normal_(self.weight, mean=0.0, std=std, a=-3.0, b=3.0)
 
     def forward(self, token_ids: Int[torch.Tensor, " ..."]) -> Float[torch.Tensor, " ... d_model"]:
         """
@@ -38,12 +38,12 @@ class Embedding(nn.Module):
         Args:
             token_ids (torch.Tensor): Tensor of token IDs
         """
-        return self.embedding[token_ids]
+        return self.weight[token_ids]
 
 if __name__ == "__main__":
     vocab_size, d_model = 1000, 128
     emb = Embedding(vocab_size, d_model)
-    assert emb.embedding.shape == (vocab_size, d_model)
+    assert emb.weight.shape == (vocab_size, d_model)
     token_ids_1d = torch.randint(0, vocab_size, (10,))
     token_ids_2d = torch.randint(0, vocab_size, (4, 10))
     out_1d = emb(token_ids_1d)
