@@ -19,6 +19,7 @@ from cs336_basics.module.transformer_block import TransformerBlock
 from cs336_basics.softmax import softmax
 from cs336_basics.train_bpe import train_bpe
 from cs336_basics.tokenizer import Tokenizer
+from cs336_basics.transformer_lm import TransformerLM
 from cs336_basics.module.linear import Linear
 
 
@@ -317,17 +318,7 @@ def run_transformer_block(
         running the Transformer block on the input features while using RoPE.
     """
     tb = TransformerBlock(d_model, num_heads, d_ff, max_seq_len, theta)
-    tb.load_state_dict({
-        "attn.q_proj.weight": weights["attn.q_proj.weight"],
-        "attn.k_proj.weight": weights["attn.k_proj.weight"],
-        "attn.v_proj.weight": weights["attn.v_proj.weight"],
-        "attn.output_proj.weight": weights["attn.output_proj.weight"],
-        "ln1.weight": weights["ln1.weight"],
-        "ffn.w1.weight": weights["ffn.w1.weight"],
-        "ffn.w2.weight": weights["ffn.w2.weight"],
-        "ffn.w3.weight": weights["ffn.w3.weight"],
-        "ln2.weight": weights["ln2.weight"],
-    })
+    tb.load_state_dict(weights)
     return tb(in_features)
 
 
@@ -410,7 +401,10 @@ def run_transformer_lm(
         Float[Tensor, "batch_size sequence_length vocab_size"]: Tensor with the predicted unnormalized
         next-word distribution for each token.
     """
-    raise NotImplementedError
+    model = TransformerLM(vocab_size=vocab_size, context_length=context_length, d_model=d_model, num_layers=num_layers,
+                          num_heads=num_heads, d_ff=d_ff, theta=rope_theta)
+    model.load_state_dict(weights)
+    return model(in_indices)
 
 
 def run_rmsnorm(
