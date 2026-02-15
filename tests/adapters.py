@@ -8,8 +8,8 @@ import numpy.typing as npt
 import torch
 from jaxtyping import Bool, Float, Int
 from torch import Tensor
-from torch.nn import CrossEntropyLoss
 
+from cs336_basics.optimizer import AdamW
 from cs336_basics.attention import scaled_dot_product_attention
 from cs336_basics.cross_entropy import cross_entropy
 from cs336_basics.module.embedding import Embedding
@@ -522,7 +522,7 @@ def get_adamw_cls() -> Any:
     """
     Returns a torch.optim.Optimizer that implements AdamW.
     """
-    raise NotImplementedError
+    return AdamW
 
 
 def run_get_lr_cosine_schedule(
