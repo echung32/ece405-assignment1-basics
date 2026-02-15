@@ -105,7 +105,6 @@ def train(
     print(f"  Max LR: {max_lr}")
     print(f"  Min LR: {min_lr}")
     print(f"  Warmup iterations: {warmup_iters:,}")
-    print(f"  Decay iterations: {lr_decay_iters:,}")
     print(f"\nTraining:")
     print(f"  Batch size: {batch_size}")
     print(f"  Max iterations: {max_iters:,}")
@@ -148,7 +147,6 @@ def train(
             "max_lr": max_lr,
             "min_lr": min_lr,
             "warmup_iters": warmup_iters,
-            "lr_decay_iters": lr_decay_iters,
             "batch_size": batch_size,
             "max_iters": max_iters,
             "grad_clip": grad_clip,
