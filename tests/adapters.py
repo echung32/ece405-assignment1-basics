@@ -12,6 +12,7 @@ from torch import Tensor
 from cs336_basics.optimizer import AdamW
 from cs336_basics.attention import scaled_dot_product_attention
 from cs336_basics.cross_entropy import cross_entropy
+from cs336_basics.data import get_batch
 from cs336_basics.gradient_clipping import gradient_clipping
 from cs336_basics.module.embedding import Embedding
 from cs336_basics.module.multihead_attention import MultiHeadSelfAttention
@@ -24,6 +25,7 @@ from cs336_basics.train_bpe import train_bpe
 from cs336_basics.tokenizer import Tokenizer
 from cs336_basics.transformer_lm import TransformerLM
 from cs336_basics.module.linear import Linear
+from cs336_basics.lr_schedule import get_lr_cosine_schedule
 
 
 def run_linear(
@@ -214,7 +216,8 @@ def run_multihead_self_attention_with_rope(
         Float[Tensor, " ... sequence_length d_out"]: Tensor with the output of running your optimized, batched multi-headed attention
         implementation with the given QKV projection weights and input features.
     """
-    mha = MultiHeadSelfAttention(d_model=d_model, num_heads=num_heads, max_seq_len=max_seq_len, theta=theta, use_rope=True)
+    mha = MultiHeadSelfAttention(d_model=d_model, num_heads=num_heads, max_seq_len=max_seq_len, theta=theta,
+                                 use_rope=True)
     mha.load_state_dict({
         "q_proj.weight": q_proj_weight,
         "k_proj.weight": k_proj_weight,
@@ -222,6 +225,7 @@ def run_multihead_self_attention_with_rope(
         "output_proj.weight": o_proj_weight,
     })
     return mha(in_features, token_positions)
+
 
 def run_rope(
         d_k: int,
@@ -470,7 +474,7 @@ def run_get_batch(
         is the sampled input sequences, and the second tuple item is the corresponding
         language modeling labels.
     """
-    raise NotImplementedError
+    return get_batch(dataset, batch_size, context_length, device)
 
 
 def run_softmax(in_features: Float[Tensor, " ..."], dim: int) -> Float[Tensor, " ..."]:
@@ -516,7 +520,7 @@ def run_gradient_clipping(parameters: Iterable[torch.nn.Parameter], max_l2_norm:
 
     The gradients of the parameters (parameter.grad) should be modified in-place.
     """
-    gradient_clipping(parameters, max_l2_norm)
+    return gradient_clipping(parameters, max_l2_norm)
 
 
 def get_adamw_cls() -> Any:
@@ -551,7 +555,6 @@ def run_get_lr_cosine_schedule(
     Returns:
         Learning rate at the given iteration under the specified schedule.
     """
-    from cs336_basics.lr_schedule import get_lr_cosine_schedule
     return get_lr_cosine_schedule(
         iteration=it,
         max_learning_rate=max_learning_rate,
