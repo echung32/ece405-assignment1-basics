@@ -39,9 +39,9 @@ echo "CUDA devices: $CUDA_VISIBLE_DEVICES"
 echo "Number of CPUs: $SLURM_CPUS_PER_TASK"
 echo "Number of GPUs: $SLURM_GPUS_PER_NODE"
 echo "Memory: $SLURM_MEM_PER_NODE MB"
-echo "Variant: $VARIANT"
 nvidia-smi
 
+VARIANT="baseline"
 BATCH_SIZE=256
 LEARNING_RATE=3e-3
 MAX_ITERS=10000
