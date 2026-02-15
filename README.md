@@ -61,6 +61,45 @@ Caution! The free GPU runtimes are very limited! Make sure to disconnect and del
 
 If any of this happens to you, please consult with the professor.
 
+## Training Your Model
+
+### Quick Start
+
+1. **Prepare tokenized data**:
+```bash
+# This will prepare vocab and merge files
+uv run python scripts/train_bpe_dataset.py
+
+# This will train tokenizers and encode datasets to .npy files
+uv run python scripts/tokenizer_experiments.py
+```
+
+2. **Start training**:
+```bash
+# For TinyStories
+uv run python -m cs336_basics.train \
+    --vocab-size 10000 \
+    --train-data artifacts/tinystories_train_encoded.npy \
+    --val-data artifacts/tinystories_valid_encoded.npy \
+    --max-iters 10000
+
+# For OpenWebText
+uv run python -m cs336_basics.train \
+    --vocab-size 32000 \
+    --train-data artifacts/owt_train_encoded.npy \
+    --val-data artifacts/owt_valid_encoded.npy \
+    --max-iters 10000
+```
+
+3. **Resume from checkpoint**:
+```bash
+uv run python -m cs336_basics.train \
+    --vocab-size 10000 \
+    --train-data artifacts/tinystories_train_encoded.npy \
+    --val-data artifacts/tinystories_valid_encoded.npy \
+    --resume-from checkpoints/checkpoint_latest.pt
+```
+
 ## ECE405 Assignment instructions
 
 Follow along the [CS336@Stanford handout](./cs336_spring2025_assignment1_basics.pdf) with small deviations:
