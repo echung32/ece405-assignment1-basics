@@ -1,6 +1,6 @@
 import time
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Union
 
 import numpy as np
 import torch
@@ -126,6 +126,12 @@ def train(
     # Set random seed
     set_seed(seed)
 
+    # https://servicedesk.surf.nl/wiki/spaces/WIKI/pages/30668820/Deep+Learning+on+A100+GPUs
+    # https://docs.pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html
+    # since we are training in fp32 but a100 has 2x fp16 flops, let it use them.
+    # high mode = either tf32 or float32 number as the sum of two bfloat16 numbers
+    torch.set_float32_matmul_precision('high')
+
     # Initialize Weights & Biases
     wandb_run = wandb.init(
         entity=wandb_entity,
@@ -189,6 +195,10 @@ def train(
 
     num_params = sum(p.numel() for p in model.parameters())
     print(f"Model initialized with {num_params:,} parameters")
+
+    # https://docs.pytorch.org/docs/stable/generated/torch.compile.html#torch.compile
+    # speedups using a100 should be significant, first batch will take longer though.
+    model = torch.compile(model, mode="default")
 
     # Initialize optimizer
     optimizer = AdamW(
