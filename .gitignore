@@ -168,3 +168,5 @@ cython_debug/
 *.tmp_chunks/
 
 artifacts/*.npy
+checkpoints/
+wandb/

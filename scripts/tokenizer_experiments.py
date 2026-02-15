@@ -260,7 +260,7 @@ def encode_dataset(
 
 
 def main():
-    """Run all tokenizer experiments."""
+    """Run all tokenizer scripts."""
     
     # Set random seed for reproducibility
     random.seed(42)
