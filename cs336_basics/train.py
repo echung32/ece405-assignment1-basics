@@ -197,7 +197,7 @@ def train(
     print(f"Model initialized with {num_params:,} parameters")
 
     # https://docs.pytorch.org/docs/stable/generated/torch.compile.html#torch.compile
-    # speedups using a100 should be significant, first batch will take longer though.
+    # speedups using a100 should be significant, the first batch will take longer though.
     model = torch.compile(model, mode="default")
 
     # Initialize optimizer

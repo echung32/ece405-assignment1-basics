@@ -7,14 +7,14 @@
 #SBATCH --gpus-per-node=1
 #SBATCH --gpu-bind=verbose,closest
 #SBATCH --mem=24g
-#SBATCH --time=24:00:00
+#SBATCH --time=06:00:00
 #SBATCH --output=logs/learning_rate_sweep_%j.out
 #SBATCH --error=logs/learning_rate_sweep_%j.err
 #SBATCH --mail-type=BEGIN,END,FAIL
 
 #SBATCH --account=REPLACE_ACCOUNT
 #SBATCH --mail-user=REPLACE_EMAIL
-#SBATCH --array=1-8
+#SBATCH --array=0-8
 
 # Reset loaded modules to defaults
 module reset
