@@ -75,17 +75,17 @@ def train(
         eps: float = typer.Option(1e-8, help="Adam epsilon"),
 
         # Learning rate schedule
-        max_lr: float = typer.Option(6e-4, help="Maximum learning rate for schedule"),
+        max_lr: float = typer.Option(3e-3, help="Maximum learning rate for schedule"),
         min_lr: float = typer.Option(0.0, help="Minimum learning rate for schedule"),
-        warmup_iters: int = typer.Option(2000, help="Number of warmup iterations"),
+        warmup_iters: int = typer.Option(5000, help="Number of warmup iterations"),
         # "When using X training steps, we suggest adjusting the cosine learning rate decay
         # schedule to terminate its decay (i.e., reach the minimum learning rate) at precise step X."
         # So this should just match max_iters instead.
-        # lr_decay_iters: int = typer.Option(40000, help="Number of iterations for LR decay"),
+        # lr_decay_iters: int = typer.Option(10000, help="Number of iterations for LR decay"),
 
         # Training hyperparameters
-        batch_size: int = typer.Option(32, help="Batch size"),
-        max_iters: int = typer.Option(40000, help="Maximum number of training iterations"),
+        batch_size: int = typer.Option(64, help="Batch size"),
+        max_iters: int = typer.Option(5000, help="Maximum number of training iterations"),
         grad_clip: float = typer.Option(1.0, help="Gradient clipping threshold"),
 
         # Checkpointing and logging
