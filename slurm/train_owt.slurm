@@ -1,9 +1,9 @@
 #!/bin/bash
 #SBATCH --job-name=train_openwebtext
-#SBATCH --partition=gpuH200x8
+#SBATCH --partition=gpuA100x4
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
-#SBATCH --cpus-per-task=12
+#SBATCH --cpus-per-task=16
 #SBATCH --gpus-per-node=1
 #SBATCH --gpu-bind=verbose,closest
 #SBATCH --mem=32g
@@ -42,7 +42,7 @@ echo "Memory: $SLURM_MEM_PER_NODE MB"
 nvidia-smi
 
 VARIANT="baseline"
-BATCH_SIZE=256
+BATCH_SIZE=64
 LEARNING_RATE=3e-3
 MAX_ITERS=10000
 
