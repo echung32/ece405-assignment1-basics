@@ -96,8 +96,6 @@ time uv run python -m cs336_basics.train \
       --val-data $VAL_DATA \
       --checkpoint-dir $checkpoint_dir \
       --variant $VARIANT \
-      --eval-interval $EVAL_INTERVAL \
-      --save-interval $SAVE_INTERVAL \
       --wandb-project $WANDB_PROJECT \
       --wandb-run-name "ablation_${VARIANT}"
 
