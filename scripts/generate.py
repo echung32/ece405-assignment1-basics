@@ -1,10 +1,23 @@
 """
 uv run python scripts/generate.py \
-    --checkpoint checkpoints/checkpoint_latest.pt \
+    --checkpoint checkpoints/tinystories_batch_64/checkpoint_final.pt \
     --vocab-file artifacts/tinystories_vocab.json \
     --merges-file artifacts/tinystories_merges.txt \
     --vocab-size 10000 \
-    --prompt "Once upon a time"
+    --max-tokens 256 \
+    --temperature 0.8 \
+    --top-p 0.9 \
+    --prompt "Once upon a time,"
+
+uv run python scripts/generate.py \
+    --checkpoint checkpoints/openwebtext/checkpoint_final.pt \
+    --vocab-file artifacts/owt_vocab.json \
+    --merges-file artifacts/owt_merges.txt \
+    --vocab-size 32000 \
+    --max-tokens 256 \
+    --temperature 0.8 \
+    --top-p 0.9 \
+    --prompt "Once upon a time,"
 """
 
 import torch

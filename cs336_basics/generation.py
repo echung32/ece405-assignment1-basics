@@ -90,12 +90,21 @@ def generate(
     device = next(model.parameters()).device
     
     current_sequence = prompt_tokens.to(device)
+    
+    # get context length from model
+    context_length = model.context_length if hasattr(model, 'context_length') else None
 
     # P(x_{t+1} = i | x_{1...t}) = softmax(TransformerLM(x_{1...t})_t / τ)_i
     with torch.no_grad():
         for _ in range(max_tokens):
+            # truncate sequence to context length
+            if context_length is not None and current_sequence.size(0) > context_length:
+                input_sequence = current_sequence[-context_length:]
+            else:
+                input_sequence = current_sequence
+            
             # Forward pass: (1, seq_len) -> (1, seq_len, vocab_size)
-            input_ids = current_sequence.unsqueeze(0)
+            input_ids = input_sequence.unsqueeze(0)
             logits = model(input_ids)
             
             # Extract next-token logits: (vocab_size,)
