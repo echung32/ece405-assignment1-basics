@@ -50,7 +50,7 @@ def cross_entropy(
     return loss_per_example.squeeze(-1).mean()
 
 
-def perplexity(cross_entrypy_loss: Float[Tensor]) -> Float[Tensor]:
+def perplexity(cross_entrypy_loss: Float[Tensor, "..."]) -> Float[Tensor, ""]:
     """
     Cross entropy suffices for training, but when we evaluate the model, we also want to report
     perplexity. For a sequence of length m where we suffer cross-entropy losses ℓ1, . . . , ℓm:
