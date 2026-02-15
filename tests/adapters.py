@@ -12,6 +12,7 @@ from torch import Tensor
 from cs336_basics.optimizer import AdamW
 from cs336_basics.attention import scaled_dot_product_attention
 from cs336_basics.cross_entropy import cross_entropy
+from cs336_basics.gradient_clipping import gradient_clipping
 from cs336_basics.module.embedding import Embedding
 from cs336_basics.module.multihead_attention import MultiHeadSelfAttention
 from cs336_basics.module.rmsnorm import RMSNorm
@@ -515,7 +516,7 @@ def run_gradient_clipping(parameters: Iterable[torch.nn.Parameter], max_l2_norm:
 
     The gradients of the parameters (parameter.grad) should be modified in-place.
     """
-    raise NotImplementedError
+    gradient_clipping(parameters, max_l2_norm)
 
 
 def get_adamw_cls() -> Any:
