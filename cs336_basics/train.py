@@ -17,6 +17,27 @@ from cs336_basics.optimizer import AdamW
 from cs336_basics.serialization import load_checkpoint, save_checkpoint
 from cs336_basics.transformer_lm import TransformerLM
 
+VARIANT_CHOICES = ("baseline", "no_norm", "post_norm", "nope", "silu")
+
+
+def _build_model(variant: str, **kwargs) -> nn.Module:
+    if variant == "baseline":
+        return TransformerLM(**kwargs)
+    elif variant == "no_norm":
+        from cs336_basics.ablation import NoNormTransformerLM
+        return NoNormTransformerLM(**kwargs)
+    elif variant == "post_norm":
+        from cs336_basics.ablation import PostNormTransformerLM
+        return PostNormTransformerLM(**kwargs)
+    elif variant == "nope":
+        from cs336_basics.ablation import NoPETransformerLM
+        return NoPETransformerLM(**kwargs)
+    elif variant == "silu":
+        from cs336_basics.ablation import SiLUTransformerLM
+        return SiLUTransformerLM(**kwargs)
+    else:
+        raise ValueError(f"unknown variant: {variant}")
+
 app = typer.Typer()
 
 
@@ -77,17 +98,18 @@ def train(
 
         # Other settings
         seed: int = typer.Option(42, help="Random seed"),
+        variant: str = typer.Option("baseline", help=f"Model variant: {', '.join(VARIANT_CHOICES)}"),
         wandb_entity: str = typer.Option("echung32-ece405", help="Weights & Biases entity name"),
         wandb_project: str = typer.Option("assignment-1", help="Weights & Biases project name"),
         wandb_run_name: str = typer.Option(None, help="Weights & Biases run name"),
 ):
     """Train a Transformer Language Model."""
 
-    # Print configuration
     print("\n" + "=" * 80)
     print("Training Configuration")
     print("=" * 80)
     print(f"Model:")
+    print(f"  Variant: {variant}")
     print(f"  Vocabulary size: {vocab_size:,}")
     print(f"  Context length: {context_length}")
     print(f"  Model dimension: {d_model}")
@@ -138,6 +160,7 @@ def train(
         project=wandb_project,
         name=wandb_run_name,
         config={
+            "variant": variant,
             "vocab_size": vocab_size,
             "context_length": context_length,
             "d_model": d_model,
@@ -182,8 +205,9 @@ def train(
     val_dataset = np.load(val_data)
 
     # Initialize model
-    print("\nInitializing model...")
-    model = TransformerLM(
+    print(f"\nInitializing model (variant: {variant})...")
+    model = _build_model(
+        variant=variant,
         vocab_size=vocab_size,
         context_length=context_length,
         d_model=d_model,
