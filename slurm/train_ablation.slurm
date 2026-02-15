@@ -90,7 +90,7 @@ time uv run python -m cs336_basics.train \
       --eps $EPS \
       --weight-decay $WEIGHT_DECAY \
       --grad-clip $GRAD_CLIP \
-      --max-lr $MAX_LR \
+      --max-lr $LEARNING_RATE \
       --warmup-iters $WARMUP_ITERS \
       --train-data $TRAIN_DATA \
       --val-data $VAL_DATA \
