@@ -158,10 +158,22 @@ def train(
     checkpoint_path = Path(checkpoint_dir)
     checkpoint_path.mkdir(parents=True, exist_ok=True)
 
-    # Load data
-    print("\nLoading data...")
-    train_dataset = np.memmap(train_data, dtype=np.uint16, mode='r')
-    val_dataset = np.memmap(val_data, dtype=np.uint16, mode='r')
+    # use memmap to load data
+    #  since we don't have a dataloader implemented, the gpu is idle when it waits for new batches.
+    #  so just use more ram in exchange to load data fully into memory.
+    # train_mmap = np.memmap(train_data, dtype=np.uint16, mode='r')
+    # val_mmap = np.memmap(val_data, dtype=np.uint16, mode='r')
+
+    # we should also be able to train both directly in memory.
+    # $ ls -lh artifacts/*encoded*.npy
+    # 5.1G Feb 11 23:01 artifacts/owt_train_encoded.npy
+    # 127M Feb 11 23:04 artifacts/owt_valid_encoded.npy
+    # 1021M Feb 11 20:01 artifacts/tinystories_train_encoded.npy
+    # 11M Feb 11 20:02 artifacts/tinystories_valid_encoded.npy
+
+    # directly load data into ram
+    train_dataset = np.load(train_data)
+    val_dataset = np.load(val_data)
 
     # Initialize model
     print("\nInitializing model...")

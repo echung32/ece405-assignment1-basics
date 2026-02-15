@@ -6,7 +6,7 @@
 #SBATCH --cpus-per-task=16
 #SBATCH --gpus-per-node=1
 #SBATCH --gpu-bind=verbose,closest
-#SBATCH --mem=20g
+#SBATCH --mem=24g
 #SBATCH --time=24:00:00
 #SBATCH --output=logs/learning_rate_sweep_%j.out
 #SBATCH --error=logs/learning_rate_sweep_%j.err
@@ -24,6 +24,9 @@ echo "Job started on $(hostname) at $(date)"
 echo "Job ID: $SLURM_JOB_ID, Task ID: $SLURM_ARRAY_TASK_ID"
 echo "Working directory: $SLURM_SUBMIT_DIR"
 
+LEARNING_RATES=("1e-5" "3e-5" "1e-4" "3e-4" "6e-4" "1e-3" "3e-3" "1e-2")
+LR=${LEARNING_RATES[$SLURM_ARRAY_TASK_ID]}
+
 # Create logs directory if it doesn't exist
 mkdir -p $SLURM_SUBMIT_DIR/logs
 
@@ -33,7 +36,7 @@ cd $SLURM_SUBMIT_DIR
 module load python/3
 
 # Activate virtual environment
-source ../.venv/bin/activate
+source ./.venv/bin/activate
 
 # Print some system information
 echo "CUDA devices: $CUDA_VISIBLE_DEVICES"
@@ -41,9 +44,6 @@ echo "Number of CPUs: $SLURM_CPUS_PER_TASK"
 echo "Number of GPUs: $SLURM_GPUS_PER_NODE"
 echo "Memory: $SLURM_MEM_PER_NODE MB"
 nvidia-smi
-
-LEARNING_RATES=("1e-5" "3e-5" "1e-4" "3e-4" "6e-4" "1e-3" "3e-3" "1e-2")
-LR=${LEARNING_RATES[$SLURM_ARRAY_TASK_ID]}
 
 VOCAB_SIZE=10000
 CONTEXT_LENGTH=256
