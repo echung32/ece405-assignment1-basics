@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=train_learning_rate_sweep
+#SBATCH --job-name=train_batch_sweep
 #SBATCH --partition=gpuA100x4
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
@@ -8,13 +8,13 @@
 #SBATCH --gpu-bind=verbose,closest
 #SBATCH --mem=24g
 #SBATCH --time=06:00:00
-#SBATCH --output=logs/learning_rate_sweep_%j.out
-#SBATCH --error=logs/learning_rate_sweep_%j.err
+#SBATCH --output=logs/batch_sweep_%j.out
+#SBATCH --error=logs/batch_sweep_%j.err
 #SBATCH --mail-type=BEGIN,END,FAIL
 
 #SBATCH --account=REPLACE_ACCOUNT
 #SBATCH --mail-user=REPLACE_EMAIL
-#SBATCH --array=0-7
+#SBATCH --array=0-5
 
 # Reset loaded modules to defaults
 module reset
@@ -24,8 +24,8 @@ echo "Job started on $(hostname) at $(date)"
 echo "Job ID: $SLURM_JOB_ID, Task ID: $SLURM_ARRAY_TASK_ID"
 echo "Working directory: $SLURM_SUBMIT_DIR"
 
-LEARNING_RATES=("1e-5" "3e-5" "1e-4" "3e-4" "6e-4" "1e-3" "3e-3" "1e-2")
-LR=${LEARNING_RATES[$SLURM_ARRAY_TASK_ID]}
+BATCH_SIZES=("1" "8" "32" "64" "128" "256")
+BATCH_SIZE=${BATCH_SIZES[$SLURM_ARRAY_TASK_ID]}
 
 # Create logs directory if it doesn't exist
 mkdir -p $SLURM_SUBMIT_DIR/logs
@@ -52,8 +52,8 @@ NUM_LAYERS=4
 NUM_HEADS=16
 D_FF=1344
 ROPE_THETA=10000.0
-BATCH_SIZE=128
-MAX_ITERS=40000
+LEARNING_RATE=3e-3
+MAX_ITERS=10000
 BETA1=0.9
 BETA2=0.95
 EPS=1e-8
@@ -62,14 +62,14 @@ GRAD_CLIP=1.0
 WARMUP_ITERS=2000
 TRAIN_DATA="artifacts/tinystories_train_encoded.npy"
 VAL_DATA="artifacts/tinystories_valid_encoded.npy"
-WANDB_PROJECT="ece405-tinystories-lrsweep"
+WANDB_PROJECT="ece405-tinystories-batchsweep"
 
 echo "============================================"
-echo "Training with learning rate: $LR"
+echo "Training with batch size: $BATCH_SIZE"
 echo "============================================"
 
 # Create checkpoint directory
-checkpoint_dir="checkpoints/tinystories_lr_${LR}"
+checkpoint_dir="checkpoints/tinystories_batch_${BATCH_SIZE}"
 
 # Run training
 time uv run python -m cs336_basics.train \
@@ -87,12 +87,12 @@ time uv run python -m cs336_basics.train \
       --eps $EPS \
       --weight-decay $WEIGHT_DECAY \
       --grad-clip $GRAD_CLIP \
-      --max-lr $LR \
+      --max-lr $LEARNING_RATE \
       --warmup-iters $WARMUP_ITERS \
       --train-data $TRAIN_DATA \
       --val-data $VAL_DATA \
       --checkpoint-dir $checkpoint_dir \
       --wandb-project $WANDB_PROJECT \
-      --wandb-run-name "lr_${LR}"
+      --wandb-run-name "batch_${BATCH_SIZE}"
 
 echo "Job completed at $(date)"
