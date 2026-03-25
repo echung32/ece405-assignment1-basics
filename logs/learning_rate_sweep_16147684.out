@@ -1,0 +1,342 @@
+Job started on gpua002.delta.ncsa.illinois.edu at Sun Feb 22 00:03:58 CST 2026
+Job ID: 16147684, Task ID: 0
+Working directory: /projects/bfdy/ece405-assignment1-basics
+CUDA devices: 0
+Number of CPUs: 16
+Number of GPUs: 1
+Memory: 24576 MB
+Sun Feb 22 00:03:59 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 570.148.08             Driver Version: 570.148.08     CUDA Version: 12.8     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA A100-SXM4-40GB          On  |   00000000:C7:00.0 Off |                    0 |
+| N/A   31C    P0             53W /  400W |       0MiB /  40960MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+============================================
+Training with learning rate: 1e-1
+============================================
+
+================================================================================
+Training Configuration
+================================================================================
+Model:
+  Variant: baseline
+  Vocabulary size: 10,000
+  Context length: 256
+  Model dimension: 512
+  Number of layers: 4
+  Number of heads: 16
+  Feed-forward dimension: 1344
+  RoPE theta: 10000.0
+
+Optimizer:
+  Learning rate: 0.0003
+  Weight decay: 0.001
+  Beta1: 0.9
+  Beta2: 0.95
+  Epsilon: 1e-08
+
+Learning Rate Schedule:
+  Max LR: 0.1
+  Min LR: 0.0
+  Warmup iterations: 2,000
+
+Training:
+  Batch size: 128
+  Max iterations: 10,000
+  Gradient clipping: 1.0
+
+Data:
+  Training data: artifacts/tinystories_train_encoded.npy
+  Validation data: artifacts/tinystories_valid_encoded.npy
+
+Checkpointing:
+  Checkpoint directory: checkpoints/tinystories_lr_1e-1
+  Save interval: 5,000 iterations
+  Eval interval: 500 iterations
+
+Device: cuda
+Random seed: 42
+Weights & Biases: enabled (project: ece405-tinystories-lrsweep)
+================================================================================
+
+Initializing model (variant: baseline)...
+Model initialized with 22,696,448 parameters
+
+Iter      0 | Loss: 9.2602 | LR: 0.00e+00 | Tokens/sec: 85774
+
+Iter    100 | Loss: 4.3155 | LR: 5.00e-03 | Tokens/sec: 229197
+
+Iter    200 | Loss: 2.7408 | LR: 1.00e-02 | Tokens/sec: 310710
+
+Iter    300 | Loss: 2.7338 | LR: 1.50e-02 | Tokens/sec: 317696
+
+Iter    400 | Loss: 3.1105 | LR: 2.00e-02 | Tokens/sec: 315617
+
+Iter    500 | Loss: 3.6028 | LR: 2.50e-02 | Tokens/sec: 316855
+
+Evaluating at iteration 500...
+Iter    500 | Train loss: 3.8636 (ppl: 47.64) | Val loss: 3.8589 (ppl: 47.42)
+
+Iter    600 | Loss: 3.9902 | LR: 3.00e-02 | Tokens/sec: 108497
+
+Iter    700 | Loss: 4.3890 | LR: 3.50e-02 | Tokens/sec: 317108
+
+Iter    800 | Loss: 4.3114 | LR: 4.00e-02 | Tokens/sec: 316943
+
+Iter    900 | Loss: 4.1576 | LR: 4.50e-02 | Tokens/sec: 317498
+
+Iter   1000 | Loss: 4.1011 | LR: 5.00e-02 | Tokens/sec: 316688
+
+Evaluating at iteration 1000...
+Iter   1000 | Train loss: 4.1591 (ppl: 64.01) | Val loss: 4.1574 (ppl: 63.90)
+
+Iter   1100 | Loss: 4.2125 | LR: 5.50e-02 | Tokens/sec: 141398
+
+Iter   1200 | Loss: 4.0933 | LR: 6.00e-02 | Tokens/sec: 317750
+
+Iter   1300 | Loss: 4.1141 | LR: 6.50e-02 | Tokens/sec: 317536
+
+Iter   1400 | Loss: 4.0922 | LR: 7.00e-02 | Tokens/sec: 317692
+
+Iter   1500 | Loss: 4.1019 | LR: 7.50e-02 | Tokens/sec: 317791
+
+Evaluating at iteration 1500...
+Iter   1500 | Train loss: 4.0467 (ppl: 57.21) | Val loss: 4.0417 (ppl: 56.92)
+
+Iter   1600 | Loss: 4.0901 | LR: 8.00e-02 | Tokens/sec: 141409
+
+Iter   1700 | Loss: 4.1068 | LR: 8.50e-02 | Tokens/sec: 317603
+
+Iter   1800 | Loss: 4.0649 | LR: 9.00e-02 | Tokens/sec: 317865
+
+Iter   1900 | Loss: 4.1327 | LR: 9.50e-02 | Tokens/sec: 317435
+
+Iter   2000 | Loss: 4.0939 | LR: 1.00e-01 | Tokens/sec: 317545
+
+Evaluating at iteration 2000...
+Iter   2000 | Train loss: 4.1576 (ppl: 63.92) | Val loss: 4.1520 (ppl: 63.56)
+
+Iter   2100 | Loss: 4.1162 | LR: 1.00e-01 | Tokens/sec: 141408
+
+Iter   2200 | Loss: 4.1127 | LR: 9.98e-02 | Tokens/sec: 317653
+
+Iter   2300 | Loss: 4.0900 | LR: 9.97e-02 | Tokens/sec: 317866
+
+Iter   2400 | Loss: 4.1290 | LR: 9.94e-02 | Tokens/sec: 317881
+
+Iter   2500 | Loss: 4.1298 | LR: 9.90e-02 | Tokens/sec: 317859
+
+Evaluating at iteration 2500...
+Iter   2500 | Train loss: 4.1368 (ppl: 62.60) | Val loss: 4.1312 (ppl: 62.25)
+
+Iter   2600 | Loss: 4.1264 | LR: 9.86e-02 | Tokens/sec: 141402
+
+Iter   2700 | Loss: 4.1893 | LR: 9.81e-02 | Tokens/sec: 317897
+
+Iter   2800 | Loss: 4.1919 | LR: 9.76e-02 | Tokens/sec: 317660
+
+Iter   2900 | Loss: 4.1634 | LR: 9.69e-02 | Tokens/sec: 317874
+
+Iter   3000 | Loss: 4.1567 | LR: 9.62e-02 | Tokens/sec: 317840
+
+Evaluating at iteration 3000...
+Iter   3000 | Train loss: 4.1273 (ppl: 62.01) | Val loss: 4.1212 (ppl: 61.63)
+
+Iter   3100 | Loss: 4.1470 | LR: 9.54e-02 | Tokens/sec: 140988
+
+Iter   3200 | Loss: 4.1830 | LR: 9.46e-02 | Tokens/sec: 317886
+
+Iter   3300 | Loss: 4.1871 | LR: 9.36e-02 | Tokens/sec: 317871
+
+Iter   3400 | Loss: 4.2247 | LR: 9.26e-02 | Tokens/sec: 317898
+
+Iter   3500 | Loss: 4.2211 | LR: 9.16e-02 | Tokens/sec: 317897
+
+Evaluating at iteration 3500...
+Iter   3500 | Train loss: 4.2156 (ppl: 67.74) | Val loss: 4.2117 (ppl: 67.47)
+
+Iter   3600 | Loss: 4.2085 | LR: 9.05e-02 | Tokens/sec: 141411
+
+Iter   3700 | Loss: 4.1673 | LR: 8.93e-02 | Tokens/sec: 317934
+
+Iter   3800 | Loss: 4.1272 | LR: 8.80e-02 | Tokens/sec: 317986
+
+Iter   3900 | Loss: 4.1134 | LR: 8.67e-02 | Tokens/sec: 317993
+
+Iter   4000 | Loss: 4.1155 | LR: 8.54e-02 | Tokens/sec: 317940
+
+Evaluating at iteration 4000...
+Iter   4000 | Train loss: 4.1236 (ppl: 61.78) | Val loss: 4.1154 (ppl: 61.28)
+
+Iter   4100 | Loss: 4.0701 | LR: 8.39e-02 | Tokens/sec: 135270
+
+Iter   4200 | Loss: 4.0613 | LR: 8.25e-02 | Tokens/sec: 317931
+
+Iter   4300 | Loss: 4.0446 | LR: 8.10e-02 | Tokens/sec: 318049
+
+Iter   4400 | Loss: 4.0425 | LR: 7.94e-02 | Tokens/sec: 314318
+
+Iter   4500 | Loss: 4.0582 | LR: 7.78e-02 | Tokens/sec: 317770
+
+Evaluating at iteration 4500...
+Iter   4500 | Train loss: 4.0433 (ppl: 57.01) | Val loss: 4.0433 (ppl: 57.02)
+
+Iter   4600 | Loss: 4.0513 | LR: 7.61e-02 | Tokens/sec: 140822
+
+Iter   4700 | Loss: 4.0490 | LR: 7.44e-02 | Tokens/sec: 317890
+
+Iter   4800 | Loss: 4.0408 | LR: 7.27e-02 | Tokens/sec: 318028
+
+Iter   4900 | Loss: 4.0423 | LR: 7.09e-02 | Tokens/sec: 318073
+
+Iter   5000 | Loss: 4.0251 | LR: 6.91e-02 | Tokens/sec: 317896
+
+Evaluating at iteration 5000...
+Iter   5000 | Train loss: 4.0260 (ppl: 56.04) | Val loss: 4.0227 (ppl: 55.85)
+
+Saving checkpoint to checkpoints/tinystories_lr_1e-1/checkpoint_iter_5000.pt
+
+Iter   5100 | Loss: 4.0445 | LR: 6.73e-02 | Tokens/sec: 134949
+
+Iter   5200 | Loss: 4.0713 | LR: 6.55e-02 | Tokens/sec: 318469
+
+Iter   5300 | Loss: 4.0835 | LR: 6.36e-02 | Tokens/sec: 318385
+
+Iter   5400 | Loss: 4.0526 | LR: 6.17e-02 | Tokens/sec: 318422
+
+Iter   5500 | Loss: 4.0236 | LR: 5.98e-02 | Tokens/sec: 318186
+
+Evaluating at iteration 5500...
+Iter   5500 | Train loss: 4.0071 (ppl: 54.99) | Val loss: 4.0091 (ppl: 55.10)
+
+Iter   5600 | Loss: 3.9954 | LR: 5.78e-02 | Tokens/sec: 141671
+
+Iter   5700 | Loss: 3.9837 | LR: 5.59e-02 | Tokens/sec: 318430
+
+Iter   5800 | Loss: 3.9830 | LR: 5.39e-02 | Tokens/sec: 318455
+
+Iter   5900 | Loss: 3.9955 | LR: 5.20e-02 | Tokens/sec: 318198
+
+Iter   6000 | Loss: 3.9918 | LR: 5.00e-02 | Tokens/sec: 318250
+
+Evaluating at iteration 6000...
+Iter   6000 | Train loss: 4.0191 (ppl: 55.65) | Val loss: 4.0181 (ppl: 55.60)
+
+Iter   6100 | Loss: 3.9981 | LR: 4.80e-02 | Tokens/sec: 141635
+
+Iter   6200 | Loss: 3.9804 | LR: 4.61e-02 | Tokens/sec: 318321
+
+Iter   6300 | Loss: 4.0154 | LR: 4.41e-02 | Tokens/sec: 318352
+
+Iter   6400 | Loss: 3.9850 | LR: 4.22e-02 | Tokens/sec: 318183
+
+Iter   6500 | Loss: 3.9614 | LR: 4.02e-02 | Tokens/sec: 318348
+
+Evaluating at iteration 6500...
+Iter   6500 | Train loss: 3.9568 (ppl: 52.29) | Val loss: 3.9557 (ppl: 52.23)
+
+Iter   6600 | Loss: 3.9505 | LR: 3.83e-02 | Tokens/sec: 141645
+
+Iter   6700 | Loss: 3.9502 | LR: 3.64e-02 | Tokens/sec: 318302
+
+Iter   6800 | Loss: 3.9419 | LR: 3.45e-02 | Tokens/sec: 318095
+
+Iter   6900 | Loss: 3.9277 | LR: 3.27e-02 | Tokens/sec: 318289
+
+Iter   7000 | Loss: 3.9099 | LR: 3.09e-02 | Tokens/sec: 318346
+
+Evaluating at iteration 7000...
+Iter   7000 | Train loss: 3.9037 (ppl: 49.59) | Val loss: 3.9004 (ppl: 49.42)
+
+Iter   7100 | Loss: 3.8984 | LR: 2.91e-02 | Tokens/sec: 141592
+
+Iter   7200 | Loss: 3.8903 | LR: 2.73e-02 | Tokens/sec: 318219
+
+Iter   7300 | Loss: 3.8790 | LR: 2.56e-02 | Tokens/sec: 314068
+
+Iter   7400 | Loss: 3.8698 | LR: 2.39e-02 | Tokens/sec: 318330
+
+Iter   7500 | Loss: 3.8611 | LR: 2.22e-02 | Tokens/sec: 318307
+
+Evaluating at iteration 7500...
+Iter   7500 | Train loss: 3.8565 (ppl: 47.30) | Val loss: 3.8557 (ppl: 47.26)
+
+Iter   7600 | Loss: 3.8607 | LR: 2.06e-02 | Tokens/sec: 141617
+
+Iter   7700 | Loss: 3.8600 | LR: 1.90e-02 | Tokens/sec: 317851
+
+Iter   7800 | Loss: 3.8483 | LR: 1.75e-02 | Tokens/sec: 318009
+
+Iter   7900 | Loss: 3.8451 | LR: 1.61e-02 | Tokens/sec: 318228
+
+Iter   8000 | Loss: 3.8444 | LR: 1.46e-02 | Tokens/sec: 318273
+
+Evaluating at iteration 8000...
+Iter   8000 | Train loss: 3.8367 (ppl: 46.37) | Val loss: 3.8376 (ppl: 46.41)
+
+Iter   8100 | Loss: 3.8301 | LR: 1.33e-02 | Tokens/sec: 141587
+
+Iter   8200 | Loss: 3.8314 | LR: 1.20e-02 | Tokens/sec: 318014
+
+Iter   8300 | Loss: 3.8198 | LR: 1.07e-02 | Tokens/sec: 318301
+
+Iter   8400 | Loss: 3.8150 | LR: 9.55e-03 | Tokens/sec: 318352
+
+Iter   8500 | Loss: 3.8145 | LR: 8.43e-03 | Tokens/sec: 318361
+
+Evaluating at iteration 8500...
+Iter   8500 | Train loss: 3.8102 (ppl: 45.16) | Val loss: 3.8097 (ppl: 45.14)
+
+Iter   8600 | Loss: 3.8092 | LR: 7.37e-03 | Tokens/sec: 141619
+
+Iter   8700 | Loss: 3.8081 | LR: 6.38e-03 | Tokens/sec: 290287
+
+Iter   8800 | Loss: 3.7990 | LR: 5.45e-03 | Tokens/sec: 315853
+
+Iter   8900 | Loss: 3.7919 | LR: 4.59e-03 | Tokens/sec: 318254
+
+Iter   9000 | Loss: 3.7863 | LR: 3.81e-03 | Tokens/sec: 318264
+
+Evaluating at iteration 9000...
+Iter   9000 | Train loss: 3.7891 (ppl: 44.22) | Val loss: 3.7828 (ppl: 43.94)
+
+Iter   9100 | Loss: 3.7821 | LR: 3.09e-03 | Tokens/sec: 141468
+
+Iter   9200 | Loss: 3.7826 | LR: 2.45e-03 | Tokens/sec: 316132
+
+Iter   9300 | Loss: 3.7784 | LR: 1.88e-03 | Tokens/sec: 317945
+
+Iter   9400 | Loss: 3.7835 | LR: 1.38e-03 | Tokens/sec: 318307
+
+Iter   9500 | Loss: 3.7815 | LR: 9.61e-04 | Tokens/sec: 318123
+
+Evaluating at iteration 9500...
+Iter   9500 | Train loss: 3.7753 (ppl: 43.61) | Val loss: 3.7784 (ppl: 43.74)
+
+Iter   9600 | Loss: 3.7799 | LR: 6.16e-04 | Tokens/sec: 141551
+
+Iter   9700 | Loss: 3.7760 | LR: 3.47e-04 | Tokens/sec: 318435
+
+Iter   9800 | Loss: 3.7749 | LR: 1.54e-04 | Tokens/sec: 283851
+
+Iter   9900 | Loss: 3.7721 | LR: 3.85e-05 | Tokens/sec: 318349
+
+Saving final checkpoint to checkpoints/tinystories_lr_1e-1/checkpoint_final.pt
+
+Final evaluation...
+Final | Train loss: 3.7749 (ppl: 43.59) | Val loss: 3.7748 (ppl: 43.59)
+Job completed at Sun Feb 22 00:28:14 CST 2026
